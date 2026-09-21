@@ -106,7 +106,6 @@
             transition: all 0.2s;
         }
 
-        /* تنسيق الزر عند اختياره ليظل مظللاً */
         .transport-btn.active {
             background-color: #3b82f6;
             border-color: #60a5fa;
@@ -147,9 +146,30 @@
             <p id="mainSub">Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
 
             <div class="search-box">
-                <!-- حقل يدعم أي مدينة أو قرية صغيرة في إيطاليا -->
-                <input type="text" id="fromInput" placeholder="Partenza (es. Faenza, Roma, Milano...)">
-                <input type="text" id="toInput" placeholder="Arrivo (es. Bologna, Firenze...)">
+                <!-- حقول الإدخال مع ربط قائمة المدن المقترحة والمتاحة -->
+                <input type="text" id="fromInput" placeholder="Partenza (es. Roma, Faenza, Milano...)" list="citiesList">
+                <input type="text" id="toInput" placeholder="Arrivo (es. Bologna, Firenze...)" list="citiesList">
+
+                <!-- قائمة شاملة للمدن الكبرى والقرى لتظهر خيارات عند الكتابة، مع إمكانية كتابة أي مدينة أخرى بحرية -->
+                <datalist id="citiesList">
+                    <option value="Roma">
+                    <option value="Milano">
+                    <option value="Napoli">
+                    <option value="Torino">
+                    <option value="Firenze">
+                    <option value="Bologna">
+                    <option value="Faenza">
+                    <option value="Castel Raniero">
+                    <option value="Venezia">
+                    <option value="Verona">
+                    <option value="Palermo">
+                    <option value="Genova">
+                    <option value="Bari">
+                    <option value="Catania">
+                    <option value="Bologna Centrale">
+                    <option value="Roma Termini">
+                    <option value="Milano Centrale">
+                </datalist>
 
                 <input type="date" id="dateInput">
                 
@@ -168,21 +188,21 @@
             it: {
                 title: "365Bus Italia - Viaggia in autobus in Italia",
                 subtitle: "Trova e confronta i biglietti dell'autobus al miglior prezzo",
-                fromPlaceholder: "Partenza (es. Faenza, Roma, Milano...)",
+                fromPlaceholder: "Partenza (es. Roma, Faenza, Milano...)",
                 toPlaceholder: "Arrivo (es. Bologna, Firenze...)",
                 searchBtn: "Cerca il viaggio migliore"
             },
             en: {
                 title: "365Bus Italia - Bus Travel in Italy",
                 subtitle: "Find and compare bus tickets at the best price",
-                fromPlaceholder: "Departure (e.g. Faenza, Rome, Milan...)",
+                fromPlaceholder: "Departure (e.g. Rome, Faenza, Milan...)",
                 toPlaceholder: "Arrival (e.g. Bologna, Florence...)",
                 searchBtn: "Search Best Trip"
             },
             ar: {
                 title: "365Bus Italia - السفر بالحافلات في إيطاليا",
                 subtitle: "اعثر على أفضل تذاكر الحافلات وقارن الأسعار بكل سهولة",
-                fromPlaceholder: "من (مثال: فايينزا، روما، ميلانو...)",
+                fromPlaceholder: "من (مثال: روما، فايينزا، ميلانو...)",
                 toPlaceholder: "إلى (مثال: بولونيا، فلورنسا...)",
                 searchBtn: "بحث عن أفضل رحلة"
             }
@@ -200,7 +220,6 @@
         let selectedTransport = 'bus';
         let currentLang = 'it';
 
-        // تفعيل أزرار وسائل النقل عند الضغط عليها
         transportBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 transportBtns.forEach(b => b.classList.remove('active'));
