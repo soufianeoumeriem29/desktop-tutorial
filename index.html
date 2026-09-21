@@ -4,7 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>365Bus Italia</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: #38bdf8;
+        }
+
+        #languageSelector {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #334155;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        main h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        main p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #38bdf8;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons-group button {
+            flex: 1;
+            padding: 10px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        #searchBtn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        #searchBtn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -18,17 +135,13 @@
         </header>
 
         <main>
-            <h2>Muoviti in Italia semplicemente</h2>
-            <p>Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
+            <h2 id="mainTitle">Muoviti in Italia semplicemente</h2>
+            <p id="mainSub">Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
 
             <div class="search-box">
-                <!-- حقل المغادرة مع قائمة خيارات تلقائية -->
                 <input type="text" id="fromInput" placeholder="Partenza (es. Roma, Milano...)" list="citiesList">
-                
-                <!-- حقل الوصول مع نفس قائمة الخيارات -->
                 <input type="text" id="toInput" placeholder="Arrivo (es. Firenze, Bologna...)" list="citiesList">
 
-                <!-- قائمة المدن الإيطالية التي تظهر فوراً عند الكتابة -->
                 <datalist id="citiesList">
                     <option value="Roma">
                     <option value="Milano">
@@ -59,6 +172,93 @@
         </main>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const translations = {
+            it: {
+                title: "365Bus Italia - Viaggia in autobus in Italia",
+                subtitle: "Trova e confronta i biglietti dell'autobus al miglior prezzo",
+                fromPlaceholder: "Partenza (es. Roma, Milano...)",
+                toPlaceholder: "Arrivo (es. Firenze, Bologna...)",
+                searchBtn: "Cerca il viaggio migliore"
+            },
+            en: {
+                title: "365Bus Italia - Bus Travel in Italy",
+                subtitle: "Find and compare bus tickets at the best price",
+                fromPlaceholder: "Departure (e.g. Rome, Milan...)",
+                toPlaceholder: "Arrival (e.g. Florence, Bologna...)",
+                searchBtn: "Search Best Trip"
+            },
+            ar: {
+                title: "365Bus Italia - السفر بالحافلات في إيطاليا",
+                subtitle: "اعثر على أفضل تذاكر الحافلات وقارن الأسعار بكل سهولة",
+                fromPlaceholder: "من (مثال: روما، ميلانو...)",
+                toPlaceholder: "إلى (مثال: فلورنسا، بولونيا...)",
+                searchBtn: "بحث عن أفضل رحلة"
+            }
+        };
+
+        const langSelector = document.getElementById('languageSelector');
+        const fromInput = document.getElementById('fromInput');
+        const toInput = document.getElementById('toInput');
+        const dateInput = document.getElementById('dateInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const mainTitle = document.getElementById('mainTitle');
+        const mainSub = document.getElementById('mainSub');
+
+        let currentLang = 'it';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            if (lang === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', lang);
+            }
+
+            if (mainTitle) mainTitle.textContent = t.title.split(' - ')[1] || t.title;
+            if (mainSub) mainSub.textContent = t.subtitle;
+            if (fromInput) fromInput.placeholder = t.fromPlaceholder;
+            if (toInput) toInput.placeholder = t.toPlaceholder;
+            if (searchBtn) searchBtn.textContent = t.searchBtn;
+        }
+
+        if (langSelector) {
+            langSelector.addEventListener('change', (e) => {
+                changeLanguage(e.target.value);
+            });
+        }
+
+        if (searchBtn) {
+            searchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const origin = fromInput ? fromInput.value.trim() : '';
+                const destination = toInput ? toInput.value.trim() : '';
+                const date = dateInput ? dateInput.value : '';
+
+                if (!origin || !destination) {
+                    alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : (currentLang === 'it' ? 'Inserisci la stazione di partenza e arrivo' : 'Please enter departure and arrival'));
+                    return;
+                }
+
+                const affiliateId = 'YOUR_AFFILIATE_ID'; 
+                let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}`;
+                
+                if (date) {
+                    omioUrl += `&date=${date}`;
+                }
+
+                if (affiliateId !== 'YOUR_AFFILIATE_ID') {
+                    omioUrl += `&affiliate=${affiliateId}`;
+                }
+
+                window.open(omioUrl, '_blank');
+            });
+        }
+    </script>
 </body>
 </html>
