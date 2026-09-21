@@ -1,4 +1,4 @@
-// 365Bus Italia - Main Script
+// 365Bus Italia - Main Script with Autocomplete
 
 document.addEventListener('DOMContentLoaded', () => {
     // Language translations dictionary
@@ -36,6 +36,85 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default language set to Italian
     let currentLang = 'it';
 
+    // Popular Italian cities list for autocomplete
+    const italianCities = [
+        "Roma", "Milano", "Napoli", "Torino", "Firenze", 
+        "Bologna", "Venezia", "Verona", "Palermo", "Genova", 
+        "Bari", "Catania", "Bologna Centrale", "Roma Termini", "Milano Centrale"
+    ];
+
+    // Function to setup autocomplete for inputs
+    function setupAutocomplete(inputElement) {
+        if (!inputElement) return;
+
+        // Create dropdown container
+        const listContainer = document.createElement('div');
+        listContainer.className = 'autocomplete-list';
+        listContainer.style.position = 'absolute';
+        listContainer.style.background = '#1e293b';
+        listContainer.style.border = '1px solid #334155';
+        listContainer.style.borderRadius = '0.5rem';
+        listContainer.style.zIndex = '1000';
+        listContainer.style.width = inputElement.offsetWidth + 'px';
+        listContainer.style.maxHeight = '150px';
+        listContainer.style.overflowY = 'auto';
+        listContainer.style.display = 'none';
+        
+        inputElement.parentNode.style.position = 'relative';
+        inputElement.parentNode.appendChild(listContainer);
+
+        inputElement.addEventListener('input', () => {
+            const value = inputElement.value.trim().toLowerCase();
+            listContainer.innerHTML = '';
+            
+            if (!value) {
+                listContainer.style.display = 'none';
+                return;
+            }
+
+            const filteredCities = italianCities.filter(city => city.toLowerCase().includes(value));
+
+            if (filteredCities.length > 0) {
+                listContainer.style.display = 'block';
+                filteredCities.forEach(city => {
+                    const item = document.createElement('div');
+                    item.textContent = city;
+                    item.style.padding = '10px 15px';
+                    item.style.cursor = 'pointer';
+                    item.style.color = '#fff';
+                    item.style.borderBottom = '1px solid #334155';
+                    
+                    item.addEventListener('mouseover', () => {
+                        item.style.background = '#3b82f6';
+                    });
+                    item.addEventListener('mouseout', () => {
+                        item.style.background = 'transparent';
+                    });
+
+                    item.addEventListener('click', () => {
+                        inputElement.value = city;
+                        listContainer.style.display = 'none';
+                    });
+
+                    listContainer.appendChild(item);
+                });
+            } else {
+                listContainer.style.display = 'none';
+            }
+        });
+
+        // Hide list when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target !== inputElement) {
+                listContainer.style.display = 'none';
+            }
+        });
+    }
+
+    // Apply autocomplete to inputs
+    setupAutocomplete(fromInput);
+    setupAutocomplete(toInput);
+
     // Function to change language and direction (RTL/LTR)
     function changeLanguage(lang) {
         currentLang = lang;
@@ -49,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.setAttribute('lang', lang);
         }
 
-        // Update placeholder texts if elements exist
         if (fromInput) fromInput.placeholder = t.fromPlaceholder;
         if (toInput) toInput.placeholder = t.toPlaceholder;
         if (searchBtn) searchBtn.textContent = t.searchBtn;
@@ -61,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Search and redirection logic to Omio (supports all cities dynamically)
+    // Search and redirection logic to Omio
     if (searchBtn) {
         searchBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -75,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Construct Omio search URL dynamically with user input and Affiliate tag placeholder
-            // Note: You can replace 'YOUR_AFFILIATE_ID' with your actual affiliate tracking code once registered.
             const affiliateId = 'YOUR_AFFILIATE_ID'; 
             let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}`;
             
@@ -84,12 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 omioUrl += `&date=${date}`;
             }
 
-            // Optional: Append affiliate parameter if provided
             if (affiliateId !== 'YOUR_AFFILIATE_ID') {
                 omioUrl += `&affiliate=${affiliateId}`;
             }
 
-            // Redirect user directly to Omio results page
             window.open(omioUrl, '_blank');
         });
     }
