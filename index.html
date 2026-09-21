@@ -1,75 +1,63 @@
 <!DOCTYPE html>
-<html lang="it" dir="ltr" id="html-root">
+<html lang="it" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>365Bus Italia - Smart Transport</title>
+    <title>365Bus Italia</title>
     <link rel="stylesheet" href="style.css">
-    <!-- مكتبة الأيقونات -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-    <!-- شريط التنقل العلوي مع الشعار -->
-    <header class="navbar">
-        <div class="logo-container">
-            <img src="logo.jpeg" alt="365Bus Italia Logo" class="app-logo">
-            <span id="app-title">365Bus Italia</span>
-        </div>
-        <div class="lang-switcher">
-            <select id="lang-select" onchange="changeLanguage()">
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="ar">🇸🇦 العربية</option>
+    <div class="container">
+        <header>
+            <h1>365Bus Italia</h1>
+            <select id="languageSelector">
+                <option value="it">Italiano</option>
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
             </select>
-        </div>
-    </header>
+        </header>
 
-    <!-- صندوق البحث الرئيسي -->
-    <main class="main-container">
-        <h1 id="hero-text">Muoviti in Italia semplicemente</h1>
-        <p id="hero-sub">Collega autobus e treni in un unico posto senza stress</p>
+        <main>
+            <h2>Muoviti in Italia semplicemente</h2>
+            <p>Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
 
-        <div class="search-box">
-            <div class="input-group">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" id="from-input" placeholder="Da quale città (Es: Milano, Bologna)">
+            <div class="search-box">
+                <!-- حقل المغادرة مع قائمة خيارات تلقائية -->
+                <input type="text" id="fromInput" placeholder="Partenza (es. Roma, Milano...)" list="citiesList">
+                
+                <!-- حقل الوصول مع نفس قائمة الخيارات -->
+                <input type="text" id="toInput" placeholder="Arrivo (es. Firenze, Bologna...)" list="citiesList">
+
+                <!-- قائمة المدن الإيطالية التي تظهر فوراً عند الكتابة -->
+                <datalist id="citiesList">
+                    <option value="Roma">
+                    <option value="Milano">
+                    <option value="Napoli">
+                    <option value="Torino">
+                    <option value="Firenze">
+                    <option value="Bologna">
+                    <option value="Venezia">
+                    <option value="Verona">
+                    <option value="Palermo">
+                    <option value="Genova">
+                    <option value="Bari">
+                    <option value="Catania">
+                    <option value="Bologna Centrale">
+                    <option value="Roma Termini">
+                    <option value="Milano Centrale">
+                </datalist>
+
+                <input type="date" id="dateInput">
+                
+                <div class="buttons-group">
+                    <button type="button">Autobus</button>
+                    <button type="button">Treno</button>
+                </div>
+
+                <button id="searchBtn">Cerca il viaggio migliore</button>
             </div>
-
-            <div class="input-group">
-                <i class="fa-solid fa-map-pin"></i>
-                <input type="text" id="to-input" placeholder="A quale città (Es: Roma, Firenze)">
-            </div>
-
-            <div class="input-group">
-                <i class="fa-solid fa-calendar"></i>
-                <input type="date" id="date-input">
-            </div>
-
-            <!-- اختيار وسيلة النقل -->
-            <div class="transport-types">
-                <label class="radio-btn active">
-                    <input type="radio" name="transport" checked> <i class="fa-solid fa-bus"></i> <span id="bus-label">Autobus</span>
-                </label>
-                <label class="radio-btn">
-                    <input type="radio" name="transport"> <i class="fa-solid fa-train"></i> <span id="train-label">Treno</span>
-                </label>
-            </div>
-
-            <button class="search-btn" id="search-btn-text">Cerca il viaggio migliore</button>
-        </div>
-
-        <!-- الخطوط الأكثر طلباً -->
-        <div class="popular-routes">
-            <h3 id="popular-title">الخطوط الأكثر طلباً في إيطاليا / Tratte popolari</h3>
-            <div class="route-chips">
-                <button class="chip" onclick="quickSearch('Milano', 'Bologna')">Milano ⇄ Bologna</button>
-                <button class="chip" onclick="quickSearch('Roma', 'Firenze')">Roma ⇄ Firenze</button>
-                <button class="chip" onclick="quickSearch('Napoli', 'Roma')">Napoli ⇄ Roma</button>
-                <button class="chip" onclick="quickSearch('Torino', 'Milano')">Torino ⇄ Milano</button>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
