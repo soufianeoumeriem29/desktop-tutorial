@@ -1,75 +1,96 @@
-const translations = {
-    it: {
-        heroText: "Muoviti in Italia semplicemente",
-        heroSub: "Collega autobus e treni in un unico posto senza stress",
-        fromPlaceholder: "Da quale città (Es: Milano, Bologna)",
-        toPlaceholder: "A quale città (Es: Roma, Firenze)",
-        busLabel: "Autobus",
-        trainLabel: "Treno",
-        searchBtn: "Cerca il viaggio migliore",
-        popularTitle: "Tratte più popolari in Italia"
-    },
-    en: {
-        heroText: "Travel across Italy simply",
-        heroSub: "Find buses and trains in one place without complexity",
-        fromPlaceholder: "From city (Ex: Milan, Bologna)",
-        toPlaceholder: "To city (Ex: Rome, Florence)",
-        busLabel: "Bus",
-        trainLabel: "Train",
-        searchBtn: "Search Best Trip",
-        popularTitle: "Most popular routes in Italy"
-    },
-    ar: {
-        heroText: "تنقل في جميع أنحاء إيطاليا بكل بساطة",
-        heroSub: "اجمع رحلات الباصات والقطارات في مكان واحد دون تعقيد",
-        fromPlaceholder: "من مدينة (مثال: ميلانو، بولونيا)",
-        toPlaceholder: "إلى مدينة (مثال: روما، فلورنسا)",
-        busLabel: "باص",
-        trainLabel: "قطار",
-        searchBtn: "ابحث عن أرخص وأسهل رحلة",
-        popularTitle: "الخطوط الأكثر طلباً في إيطاليا"
-    }
-};
+// 365Bus Italia - Main Script
 
-function changeLanguage() {
-    const lang = document.getElementById('lang-select').value;
-    const htmlRoot = document.getElementById('html-root');
+document.addEventListener('DOMContentLoaded', () => {
+    // Language translations dictionary
+    const translations = {
+        it: {
+            title: "365Bus Italia - Viaggia in autobus in Italia",
+            subtitle: "Trova e confronta i biglietti dell'autobus al miglior prezzo",
+            fromPlaceholder: "Partenza (es. Roma, Milano...)",
+            toPlaceholder: "Arrivo (es. Firenze, Bologna...)",
+            searchBtn: "Cerca Biglietti"
+        },
+        en: {
+            title: "365Bus Italia - Bus Travel in Italy",
+            subtitle: "Find and compare bus tickets at the best price",
+            fromPlaceholder: "Departure (e.g. Rome, Milan...)",
+            toPlaceholder: "Arrival (e.g. Florence, Bologna...)",
+            searchBtn: "Search Tickets"
+        },
+        ar: {
+            title: "365Bus Italia - السفر بالحافلات في إيطاليا",
+            subtitle: "اعثر على أفضل تذاكر الحافلات وقارن الأسعار بكل سهولة",
+            fromPlaceholder: "من (مثال: روما، ميلانو...)",
+            toPlaceholder: "إالى (مثال: فلورنسا، بولونيا...)",
+            searchBtn: "بحث عن الرحلات"
+        }
+    };
 
-    if (lang === 'ar') {
-        htmlRoot.setAttribute('dir', 'rtl');
-        htmlRoot.setAttribute('lang', 'ar');
-    } else {
-        htmlRoot.setAttribute('dir', 'ltr');
-        htmlRoot.setAttribute('lang', lang);
-    }
+    // Elements
+    const langSelector = document.getElementById('languageSelector');
+    const fromInput = document.getElementById('fromInput');
+    const toInput = document.getElementById('toInput');
+    const dateInput = document.getElementById('dateInput');
+    const searchBtn = document.getElementById('searchBtn');
 
-    document.getElementById('hero-text').innerText = translations[lang].heroText;
-    document.getElementById('hero-sub').innerText = translations[lang].heroSub;
-    document.getElementById('from-input').placeholder = translations[lang].fromPlaceholder;
-    document.getElementById('to-input').placeholder = translations[lang].toPlaceholder;
-    document.getElementById('bus-label').innerText = translations[lang].busLabel;
-    document.getElementById('train-label').innerText = translations[lang].trainLabel;
-    document.getElementById('search-btn-text').innerText = translations[lang].searchBtn;
-    document.getElementById('popular-title').innerText = translations[lang].popularTitle;
-}
+    // Default language set to Italian
+    let currentLang = 'it';
 
-// دالة البحث الأساسية عبر إدخال المدن
-document.getElementById('search-btn-text').addEventListener('click', function() {
-    const fromCity = document.getElementById('from-input').value.trim();
-    const toCity = document.getElementById('to-input').value.trim();
-    const travelDate = document.getElementById('date-input').value;
+    // Function to change language and direction (RTL/LTR)
+    function changeLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
 
-    if (!fromCity || !toCity) {
-        alert("يرجى إدخال مدينة المغادرة ومدينة الوصول على الأقل! / Per favore inserisci le città.");
-        return;
+        if (lang === 'ar') {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+        } else {
+            document.documentElement.setAttribute('dir', 'ltr');
+            document.documentElement.setAttribute('lang', lang);
+        }
+
+        // Update placeholder texts if elements exist
+        if (fromInput) fromInput.placeholder = t.fromPlaceholder;
+        if (toInput) toInput.placeholder = t.toPlaceholder;
+        if (searchBtn) searchBtn.textContent = t.searchBtn;
     }
 
-    const searchUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(fromCity)}&to=${encodeURIComponent(toCity)}&date=${travelDate || ''}`;
-    window.open(searchUrl, '_blank');
+    if (langSelector) {
+        langSelector.addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+    }
+
+    // Search and redirection logic to Omio (supports all cities dynamically)
+    if (searchBtn) {
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const origin = fromInput ? fromInput.value.trim() : '';
+            const destination = toInput ? toInput.value.trim() : '';
+            const date = dateInput ? dateInput.value : '';
+
+            if (!origin || !destination) {
+                alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : (currentLang === 'it' ? 'Inserisci la stazione di partenza e arrivo' : 'Please enter departure and arrival'));
+                return;
+            }
+
+            // Construct Omio search URL dynamically with user input and Affiliate tag placeholder
+            // Note: You can replace 'YOUR_AFFILIATE_ID' with your actual affiliate tracking code once registered.
+            const affiliateId = 'YOUR_AFFILIATE_ID'; 
+            let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}`;
+            
+            if (date) {
+                omioUrl += `&date=${date}`;
+            }
+
+            // Optional: Append affiliate parameter if provided
+            if (affiliateId !== 'YOUR_AFFILIATE_ID') {
+                omioUrl += `&affiliate=${affiliateId}`;
+            }
+
+            // Redirect user directly to Omio results page
+            window.open(omioUrl, '_blank');
+        });
+    }
 });
-
-// دالة البحث السريع للخطوط الجاهزة الأكثر طلباً
-function quickSearch(from, to) {
-    const searchUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
-    window.open(searchUrl, '_blank');
-}
