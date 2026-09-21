@@ -94,15 +94,23 @@
             gap: 10px;
         }
 
-        .buttons-group button {
+        .transport-btn {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             background-color: #0f172a;
             border: 1px solid #334155;
             color: #fff;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        /* تنسيق الزر عند اختياره ليظل مظللاً */
+        .transport-btn.active {
+            background-color: #3b82f6;
+            border-color: #60a5fa;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
         }
 
         #searchBtn {
@@ -139,32 +147,15 @@
             <p id="mainSub">Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
 
             <div class="search-box">
-                <input type="text" id="fromInput" placeholder="Partenza (es. Roma, Milano...)" list="citiesList">
-                <input type="text" id="toInput" placeholder="Arrivo (es. Firenze, Bologna...)" list="citiesList">
-
-                <datalist id="citiesList">
-                    <option value="Roma">
-                    <option value="Milano">
-                    <option value="Napoli">
-                    <option value="Torino">
-                    <option value="Firenze">
-                    <option value="Bologna">
-                    <option value="Venezia">
-                    <option value="Verona">
-                    <option value="Palermo">
-                    <option value="Genova">
-                    <option value="Bari">
-                    <option value="Catania">
-                    <option value="Bologna Centrale">
-                    <option value="Roma Termini">
-                    <option value="Milano Centrale">
-                </datalist>
+                <!-- حقل يدعم أي مدينة أو قرية صغيرة في إيطاليا -->
+                <input type="text" id="fromInput" placeholder="Partenza (es. Faenza, Roma, Milano...)">
+                <input type="text" id="toInput" placeholder="Arrivo (es. Bologna, Firenze...)">
 
                 <input type="date" id="dateInput">
                 
                 <div class="buttons-group">
-                    <button type="button">Autobus</button>
-                    <button type="button">Treno</button>
+                    <button type="button" class="transport-btn active" data-type="bus">Autobus</button>
+                    <button type="button" class="transport-btn" data-type="train">Treno</button>
                 </div>
 
                 <button id="searchBtn">Cerca il viaggio migliore</button>
@@ -177,22 +168,22 @@
             it: {
                 title: "365Bus Italia - Viaggia in autobus in Italia",
                 subtitle: "Trova e confronta i biglietti dell'autobus al miglior prezzo",
-                fromPlaceholder: "Partenza (es. Roma, Milano...)",
-                toPlaceholder: "Arrivo (es. Firenze, Bologna...)",
+                fromPlaceholder: "Partenza (es. Faenza, Roma, Milano...)",
+                toPlaceholder: "Arrivo (es. Bologna, Firenze...)",
                 searchBtn: "Cerca il viaggio migliore"
             },
             en: {
                 title: "365Bus Italia - Bus Travel in Italy",
                 subtitle: "Find and compare bus tickets at the best price",
-                fromPlaceholder: "Departure (e.g. Rome, Milan...)",
-                toPlaceholder: "Arrival (e.g. Florence, Bologna...)",
+                fromPlaceholder: "Departure (e.g. Faenza, Rome, Milan...)",
+                toPlaceholder: "Arrival (e.g. Bologna, Florence...)",
                 searchBtn: "Search Best Trip"
             },
             ar: {
                 title: "365Bus Italia - السفر بالحافلات في إيطاليا",
                 subtitle: "اعثر على أفضل تذاكر الحافلات وقارن الأسعار بكل سهولة",
-                fromPlaceholder: "من (مثال: روما، ميلانو...)",
-                toPlaceholder: "إلى (مثال: فلورنسا، بولونيا...)",
+                fromPlaceholder: "من (مثال: فايينزا، روما، ميلانو...)",
+                toPlaceholder: "إلى (مثال: بولونيا، فلورنسا...)",
                 searchBtn: "بحث عن أفضل رحلة"
             }
         };
@@ -204,8 +195,19 @@
         const searchBtn = document.getElementById('searchBtn');
         const mainTitle = document.getElementById('mainTitle');
         const mainSub = document.getElementById('mainSub');
+        const transportBtns = document.querySelectorAll('.transport-btn');
 
+        let selectedTransport = 'bus';
         let currentLang = 'it';
+
+        // تفعيل أزرار وسائل النقل عند الضغط عليها
+        transportBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                transportBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedTransport = btn.getAttribute('data-type');
+            });
+        });
 
         function changeLanguage(lang) {
             currentLang = lang;
@@ -246,7 +248,7 @@
                 }
 
                 const affiliateId = 'YOUR_AFFILIATE_ID'; 
-                let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}`;
+                let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&mode=${selectedTransport}`;
                 
                 if (date) {
                     omioUrl += `&date=${date}`;
