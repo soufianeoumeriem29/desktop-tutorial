@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>365Bus Italia</title>
+    <title>365Bus Italia - Tutto in un'unica app</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +24,7 @@
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
         }
 
         header {
@@ -53,18 +53,19 @@
         }
 
         main h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
 
         main p {
             color: #94a3b8;
             margin-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
         .search-box {
             background-color: #1e293b;
-            padding: 30px;
+            padding: 25px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             display: flex;
@@ -108,6 +109,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .transport-btn.active {
@@ -132,6 +134,46 @@
         #searchBtn:hover {
             opacity: 0.9;
         }
+
+        /* قسم روابط النقل الحضري والمحلي الإضافي */
+        .local-transport-section {
+            margin-top: 25px;
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .local-transport-section h3 {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        .local-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .local-link-item {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.2s;
+        }
+
+        .local-link-item:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
     </style>
 </head>
 <body>
@@ -146,16 +188,16 @@
         </header>
 
         <main>
-            <h2 id="mainTitle">Muoviti in Italia semplicemente</h2>
-            <p id="mainSub">Trova e confronta i biglietti dell'autobus al miglior prezzo</p>
+            <h2 id="mainTitle">Tutti i trasporti in Italia in un'app</h2>
+            <p id="mainSub">Autobus, treni nazionali e collegamenti urbani locali</p>
 
             <div class="search-box">
                 <div class="input-group">
-                    <input type="text" id="fromInput" placeholder="Partenza (es. Faenza, Roma, Milano...)" list="italianCities">
+                    <input type="text" id="fromInput" placeholder="Partenza (es. Faenza, Bologna, Roma...)" list="italianCities">
                 </div>
 
                 <div class="input-group">
-                    <input type="text" id="toInput" placeholder="Arrivo (es. Bologna, Firenze...)" list="italianCities">
+                    <input type="text" id="toInput" placeholder="Arrivo (es. Ravenna, Firenze, Milano...)" list="italianCities">
                 </div>
 
                 <datalist id="italianCities">
@@ -173,17 +215,27 @@
                     <option value="Verona">
                     <option value="Bologna Centrale">
                     <option value="Roma Termini">
-                    <option value="Milano Centrale">
                 </datalist>
 
                 <input type="date" id="dateInput">
                 
                 <div class="buttons-group">
-                    <button type="button" class="transport-btn active" data-type="bus">Autobus</button>
-                    <button type="button" class="transport-btn" data-type="train">Treno</button>
+                    <button type="button" class="transport-btn active" data-type="flixbus">FlixBus</button>
+                    <button type="button" class="transport-btn" data-type="trenitalia">Treno (Trenitalia)</button>
                 </div>
 
-                <button id="searchBtn">Cerca il viaggio migliore</button>
+                <button id="searchBtn">Cerca il viaggio</button>
+            </div>
+
+            <!-- قسم النقل الحضري والمحلي للقرى والمدن -->
+            <div class="local-transport-section">
+                <h3 id="localTitle">🚍 Trasporto Urbano e Locale (TPL)</h3>
+                <div class="local-links">
+                    <a href="https://www.startromagna.it/" target="_blank" class="local-link-item">Start Romagna <span>↗</span></a>
+                    <a href="https://www.tper.it/" target="_blank" class="local-link-item">TPER (Bologna/Ferrara) <span>↗</span></a>
+                    <a href="https://www.trenitalia.com/" target="_blank" class="local-link-item">Regionali Trenitalia <span>↗</span></a>
+                    <a href="https://www.autoguidovie.it/" target="_blank" class="local-link-item">Autoguidovie <span>↗</span></a>
+                </div>
             </div>
         </main>
     </div>
@@ -191,25 +243,22 @@
     <script>
         const translations = {
             it: {
-                title: "365Bus Italia - Viaggia in autobus in Italia",
-                subtitle: "Trova e confronta i biglietti dell'autobus al miglior prezzo",
-                fromPlaceholder: "Partenza (es. Faenza, Roma, Milano...)",
-                toPlaceholder: "Arrivo (es. Bologna, Firenze...)",
-                searchBtn: "Cerca il viaggio migliore"
+                title: "Tutti i trasporti in Italia in un'app",
+                subtitle: "Autobus, treni nazionali e collegamenti urbani locali",
+                searchBtn: "Cerca il viaggio",
+                localTitle: "🚍 Trasporto Urbano e Locale (TPL)"
             },
             en: {
-                title: "365Bus Italia - Bus Travel in Italy",
-                subtitle: "Find and compare bus tickets at the best price",
-                fromPlaceholder: "Departure (e.g. Faenza, Rome, Milan...)",
-                toPlaceholder: "Arrival (e.g. Bologna, Florence...)",
-                searchBtn: "Search Best Trip"
+                title: "All transport in Italy in one app",
+                subtitle: "Buses, national trains, and local urban connections",
+                searchBtn: "Search Trip",
+                localTitle: "🚍 Urban & Local Transport"
             },
             ar: {
-                title: "365Bus Italia - السفر بالحافلات في إيطاليا",
-                subtitle: "اعثر على أفضل تذاكر الحافلات وقارن الأسعار بكل سهولة",
-                fromPlaceholder: "من (مثال: فايينزا، روما، ميلانو...)",
-                toPlaceholder: "إلى (مثال: بولونيا، فلورنسا...)",
-                searchBtn: "بحث عن أفضل رحلة"
+                title: "جميع وسائل النقل في إيطاليا في تطبيق واحد",
+                subtitle: "حافلات، قطارات وطنية، وخطوط النقل الحضري المحلي للقرى والمدن",
+                searchBtn: "بحث عن الرحلة",
+                localTitle: "🚍 النقل الحضري والمحلي (للبلديات والقرى)"
             }
         };
 
@@ -220,16 +269,17 @@
         const searchBtn = document.getElementById('searchBtn');
         const mainTitle = document.getElementById('mainTitle');
         const mainSub = document.getElementById('mainSub');
+        const localTitle = document.getElementById('localTitle');
         const transportBtns = document.querySelectorAll('.transport-btn');
 
-        let selectedTransport = 'bus';
+        let selectedProvider = 'flixbus';
         let currentLang = 'it';
 
         transportBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 transportBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                selectedTransport = btn.getAttribute('data-type');
+                selectedProvider = btn.getAttribute('data-type');
             });
         });
 
@@ -245,11 +295,10 @@
                 document.documentElement.setAttribute('lang', lang);
             }
 
-            if (mainTitle) mainTitle.textContent = t.title.split(' - ')[1] || t.title;
+            if (mainTitle) mainTitle.textContent = t.title;
             if (mainSub) mainSub.textContent = t.subtitle;
-            if (fromInput) fromInput.placeholder = t.fromPlaceholder;
-            if (toInput) toInput.placeholder = t.toPlaceholder;
             if (searchBtn) searchBtn.textContent = t.searchBtn;
+            if (localTitle) localTitle.textContent = t.localTitle;
         }
 
         if (langSelector) {
@@ -270,10 +319,16 @@
                     return;
                 }
 
-                // التوجيه المباشر والآمن للصفحة الرئيسية لـ Omio لمنع خطأ الروابط
-                const omioUrl = `https://www.omio.it/`;
-                
-                window.open(omioUrl, '_blank');
+                let targetUrl = '';
+                if (selectedProvider === 'flixbus') {
+                    // رابط موثوق لـ FlixBus
+                    targetUrl = `https://www.flixbus.it/`;
+                } else {
+                    // رابط موثوق لـ Trenitalia
+                    targetUrl = `https://www.trenitalia.com/`;
+                }
+
+                window.open(targetUrl, '_blank');
             });
         }
     </script>
