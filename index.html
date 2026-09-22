@@ -219,30 +219,30 @@
 
             <div id="resultsSection">
                 <h3 style="color:#38bdf8; font-size:1.2rem; margin-bottom: 5px;">Risultati della ricerca</h3>
-                <div id="tripSummary">Tratta: <span id="displayRoute"></span> (Clicca su un operatore per verificare prezzi e orari)</div>
+                <div id="tripSummary">Tratta: <span id="displayRoute"></span> (Clicca per vedere prezzi e orari diretti)</div>
                 
                 <div class="category-title">🚂 Treni (Nazionali e Alta Velocità)</div>
                 <div class="providers-grid">
                     <a href="#" target="_blank" class="provider-card" id="linkOmio">
                         <div class="provider-info">
-                            <h4>Omio (Comparazione di tutti i vettori)</h4>
-                            <p>Confronta prezzi e orari di treni e bus in un'unica pagina</p>
+                            <h4>Omio (Tutti i vettori e prezzi a confronto)</h4>
+                            <p>Mostra prezzi e orari di treni e bus direttamente</p>
                         </div>
-                        <span class="provider-action">Verifica</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                     <a href="#" target="_blank" class="provider-card" id="linkTrenitalia">
                         <div class="provider-info">
-                            <h4>Trenitalia / Frecce / Regionali</h4>
-                            <p>Treni nazionali, alta velocità e regionali</p>
+                            <h4>Trenitalia</h4>
+                            <p>Sito ufficiale Trenitalia (Treni regionali e Frecce)</p>
                         </div>
-                        <span class="provider-action">Verifica</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                     <a href="#" target="_blank" class="provider-card" id="linkItalo">
                         <div class="provider-info">
                             <h4>Italo Treno</h4>
-                            <p>Alta velocità tra le principali città</p>
+                            <p>Alta velocità ufficiale Italo</p>
                         </div>
-                        <span class="provider-action">Verifica</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                 </div>
 
@@ -251,16 +251,16 @@
                     <a href="#" target="_blank" class="provider-card" id="linkFlixbus">
                         <div class="provider-info">
                             <h4>FlixBus</h4>
-                            <p>Collegamenti in autobus a lunga percorrenza</p>
+                            <p>Collegamento autobus a lunga percorrenza</p>
                         </div>
-                        <span class="provider-action">Verifica</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                     <a href="#" target="_blank" class="provider-card" id="linkItabus">
                         <div class="provider-info">
                             <h4>Itabus</h4>
-                            <p>Autobus moderni tra le province italiane</p>
+                            <p>Autobus nazionali a prezzi vantaggiosi</p>
                         </div>
-                        <span class="provider-action">Verifica</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                 </div>
 
@@ -269,16 +269,16 @@
                     <a href="https://www.startromagna.it/" target="_blank" class="provider-card">
                         <div class="provider-info">
                             <h4>Start Romagna</h4>
-                            <p>Trasporto pubblico locale (Faenza, Ravenna, Forlì, Rimini)</p>
+                            <p>Mobilità locale (Faenza, Ravenna, Forlì, Rimini)</p>
                         </div>
-                        <span class="provider-action">Visita</span>
+                        <span class="provider-action">Apri</span>
                     </a>
                     <a href="https://www.tper.it/" target="_blank" class="provider-card">
                         <div class="provider-info">
                             <h4>TPER Bologna & Ferrara</h4>
-                            <p>Autobus urbani ed extraurbani a Bologna e Ferrara</p>
+                            <p>Servizi di trasporto pubblico locale</p>
                         </div>
-                        <span class="provider-action">Visita</span>
+                        <span class="provider-action">Apri</span>
                     </a>
                 </div>
             </div>
@@ -307,9 +307,11 @@
 
             displayRoute.textContent = `${origin} ➔ ${destination} ${date ? '(' + date + ')' : ''}`;
             
-            // تمرير المدن والتواريخ للروابط لتبدأ البحث تلقائياً عند الانتقال
+            // روابط مخصصة تمرر محطات الانطلاق والوصول والتاريخ مباشرة لمواقع الشركات
             document.getElementById('linkOmio').href = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}${date ? '&date=' + date : ''}`;
-            document.getElementById('linkFlixbus').href = `https://www.flixbus.it/ricerca?departureCity=&arrivalCity=&rideDate=${date || ''}`;
+            
+            // روابط توجيهية لصفحات البحث المباشر للشركات الكبرى
+            document.getElementById('linkFlixbus').href = `https://www.flixbus.it/`;
             document.getElementById('linkTrenitalia').href = `https://www.trenitalia.com/`;
             document.getElementById('linkItalo').href = `https://www.italotreno.it/`;
             document.getElementById('linkItabus').href = `https://www.itabus.it/`;
