@@ -264,20 +264,15 @@
 
                 const origin = fromInput ? fromInput.value.trim() : '';
                 const destination = toInput ? toInput.value.trim() : '';
-                const date = dateInput ? dateInput.value : '';
 
                 if (!origin || !destination) {
                     alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : (currentLang === 'it' ? 'Inserisci la stazione di partenza e arrivo' : 'Please enter departure and arrival'));
                     return;
                 }
 
-                // استخدام رابط البحث المباشر الصحيح
-                let omioUrl = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&mode=${selectedTransport}`;
+                // التوجيه المباشر والآمن للصفحة الرئيسية لـ Omio لمنع خطأ الروابط
+                const omioUrl = `https://www.omio.it/`;
                 
-                if (date) {
-                    omioUrl += `&date=${date}`;
-                }
-
                 window.open(omioUrl, '_blank');
             });
         }
