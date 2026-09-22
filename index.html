@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>365Bus Italia - Tutto in un'unica app</title>
+    <title>365Bus Italia - Il motore di ricerca totale per i trasporti</title>
     <style>
         * {
             box-sizing: border-box;
@@ -24,7 +24,7 @@
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 680px;
         }
 
         header {
@@ -94,30 +94,6 @@
             border-color: #38bdf8;
         }
 
-        .buttons-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .transport-btn {
-            flex: 1;
-            padding: 12px;
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .transport-btn.active {
-            background-color: #3b82f6;
-            border-color: #60a5fa;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
-
         #searchBtn {
             width: 100%;
             padding: 14px;
@@ -135,44 +111,80 @@
             opacity: 0.9;
         }
 
-        /* قسم روابط النقل الحضري والمحلي الإضافي */
-        .local-transport-section {
+        /* قسم النتائج الشامل */
+        #resultsSection {
+            display: none;
             margin-top: 25px;
             background-color: #1e293b;
-            padding: 20px;
+            padding: 25px;
             border-radius: 16px;
             text-align: left;
+            animation: fadeIn 0.4s ease-in-out;
         }
 
-        .local-transport-section h3 {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-title {
             font-size: 1.1rem;
             color: #38bdf8;
-            margin-bottom: 10px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 4px;
         }
 
-        .local-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        #tripSummary {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+
+        .providers-grid {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
-        .local-link-item {
+        .provider-card {
             background-color: #0f172a;
             border: 1px solid #334155;
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: #e2e8f0;
-            text-decoration: none;
-            font-size: 0.85rem;
+            padding: 12px 14px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: border-color 0.2s;
+            text-decoration: none;
+            transition: all 0.2s;
         }
 
-        .local-link-item:hover {
+        .provider-card:hover {
             border-color: #38bdf8;
-            color: #38bdf8;
+            background-color: #131c31;
+            transform: translateX(4px);
+        }
+
+        .provider-info h4 {
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .provider-info p {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            margin: 0;
+        }
+
+        .provider-action {
+            background-color: #2563eb;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -188,8 +200,8 @@
         </header>
 
         <main>
-            <h2 id="mainTitle">Tutti i trasporti in Italia in un'app</h2>
-            <p id="mainSub">Autobus, treni nazionali e collegamenti urbani locali</p>
+            <h2 id="mainTitle">Tutti i trasporti d'Italia in un unico motore</h2>
+            <p id="mainSub">Treni, autobus nazionali, internazionali e mobilità urbana locale</p>
 
             <div class="search-box">
                 <div class="input-group">
@@ -213,28 +225,77 @@
                     <option value="Rimini">
                     <option value="Venezia">
                     <option value="Verona">
-                    <option value="Bologna Centrale">
-                    <option value="Roma Termini">
                 </datalist>
 
                 <input type="date" id="dateInput">
-                
-                <div class="buttons-group">
-                    <button type="button" class="transport-btn active" data-type="flixbus">FlixBus</button>
-                    <button type="button" class="transport-btn" data-type="trenitalia">Treno (Trenitalia)</button>
-                </div>
 
-                <button id="searchBtn">Cerca il viaggio</button>
+                <button id="searchBtn">Cerca tra tutti i vettori</button>
             </div>
 
-            <!-- قسم النقل الحضري والمحلي للقرى والمدن -->
-            <div class="local-transport-section">
-                <h3 id="localTitle">🚍 Trasporto Urbano e Locale (TPL)</h3>
-                <div class="local-links">
-                    <a href="https://www.startromagna.it/" target="_blank" class="local-link-item">Start Romagna <span>↗</span></a>
-                    <a href="https://www.tper.it/" target="_blank" class="local-link-item">TPER (Bologna/Ferrara) <span>↗</span></a>
-                    <a href="https://www.trenitalia.com/" target="_blank" class="local-link-item">Regionali Trenitalia <span>↗</span></a>
-                    <a href="https://www.autoguidovie.it/" target="_blank" class="local-link-item">Autoguidovie <span>↗</span></a>
+            <!-- قسم ظهور الشركات مقسمة حسب الفئات -->
+            <div id="resultsSection">
+                <h3 id="resHeader" style="color:#38bdf8; font-size:1.2rem; margin-bottom: 5px;">Risultati della ricerca</h3>
+                <div id="tripSummary">Tratta: <span id="displayRoute"></span></div>
+                
+                <div class="category-title" id="catTrains">🚂 Treni (Nazionali e Alta Velocità)</div>
+                <div class="providers-grid">
+                    <a href="https://www.trenitalia.com/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Trenitalia / Frecce / Regionali</h4>
+                            <p>القطارات الوطنية، السريعة والإقليمية في عموم إيطاليا</p>
+                        </div>
+                        <span class="provider-action" id="btnText1">Verifica</span>
+                    </a>
+                    <a href="https://www.italotreno.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Italo Treno</h4>
+                            <p>قطارات السرعة العالية بين المدن الكبرى</p>
+                        </div>
+                        <span class="provider-action" id="btnText2">Verifica</span>
+                    </a>
+                </div>
+
+                <div class="category-title" id="catBuses">🚌 Autobus (Nazionali e Internazionali)</div>
+                <div class="providers-grid">
+                    <a href="https://www.flixbus.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>FlixBus</h4>
+                            <p>شبكة حافلات واسعة تربط المدن والقرى ودول أوروبا</p>
+                        </div>
+                        <span class="provider-action" id="btnText3">Verifica</span>
+                    </a>
+                    <a href="https://www.itabus.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Itabus</h4>
+                            <p>حافلات حديثة للربط بين المحافظات الإيطالية</p>
+                        </div>
+                        <span class="provider-action" id="btnText4">Verifica</span>
+                    </a>
+                </div>
+
+                <div class="category-title" id="catLocal">🏡 Trasporto Urbano e Locale (TPL - Comuni e Province)</div>
+                <div class="providers-grid">
+                    <a href="https://www.startromagna.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Start Romagna</h4>
+                            <p>النقل الحضري والمحلي (فايينزا، رافينا، فورلي، ريميني)</p>
+                        </div>
+                        <span class="provider-action" id="btnText5">Verifica</span>
+                    </a>
+                    <a href="https://www.tper.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>TPER Bologna & Ferrara</h4>
+                            <p>خطوط الحافلات الحضرية في بولونيا وفيرارا والمناطق المجاورة</p>
+                        </div>
+                        <span class="provider-action" id="btnText6">Verifica</span>
+                    </a>
+                    <a href="https://www.autoguidovie.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Autoguidovie</h4>
+                            <p>خدمات النقل الإقليمي والحضري في عدة مقاطعات</p>
+                        </div>
+                        <span class="provider-action" id="btnText7">Verifica</span>
+                    </a>
                 </div>
             </div>
         </main>
@@ -243,22 +304,34 @@
     <script>
         const translations = {
             it: {
-                title: "Tutti i trasporti in Italia in un'app",
-                subtitle: "Autobus, treni nazionali e collegamenti urbani locali",
-                searchBtn: "Cerca il viaggio",
-                localTitle: "🚍 Trasporto Urbano e Locale (TPL)"
+                title: "Tutti i trasporti d'Italia in un unico motore",
+                subtitle: "Treni, autobus nazionali, internazionali e mobilità urbana locale",
+                searchBtn: "Cerca tra tutti i vettori",
+                resHeader: "Risultati della ricerca",
+                catTrains: "🚂 Treni (Nazionali e Alta Velocità)",
+                catBuses: "🚌 Autobus (Nazionali e Internazionali)",
+                catLocal: "🏡 Trasporto Urbano e Locale (TPL)",
+                btnText: "Verifica"
             },
             en: {
-                title: "All transport in Italy in one app",
-                subtitle: "Buses, national trains, and local urban connections",
-                searchBtn: "Search Trip",
-                localTitle: "🚍 Urban & Local Transport"
+                title: "All transport in Italy in one search engine",
+                subtitle: "Trains, national/international buses, and local urban mobility",
+                searchBtn: "Search all operators",
+                resHeader: "Search results",
+                catTrains: "🚂 Trains (National & High Speed)",
+                catBuses: "🚌 Buses (National & International)",
+                catLocal: "🏡 Urban & Local Transport (TPL)",
+                btnText: "Check"
             },
             ar: {
-                title: "جميع وسائل النقل في إيطاليا في تطبيق واحد",
-                subtitle: "حافلات، قطارات وطنية، وخطوط النقل الحضري المحلي للقرى والمدن",
-                searchBtn: "بحث عن الرحلة",
-                localTitle: "🚍 النقل الحضري والمحلي (للبلديات والقرى)"
+                title: "جميع وسائل النقل في إيطاليا في محرك بحث واحد",
+                subtitle: "قطارات، حافلات وطنية ودولية، وخدمات النقل الحضري والمحلي للقرى",
+                searchBtn: "بحث في كافة الشركات والمحطات",
+                resHeader: "نتائج البحث الشاملة",
+                catTrains: "🚂 القطارات (الوطنية والسرعة العالية)",
+                catBuses: "🚌 الحافلات (بين المدن والدولية)",
+                catLocal: "🏡 النقل الحضري والمحلي (للبلديات والقرى)",
+                btnText: "عرض"
             }
         };
 
@@ -269,68 +342,53 @@
         const searchBtn = document.getElementById('searchBtn');
         const mainTitle = document.getElementById('mainTitle');
         const mainSub = document.getElementById('mainSub');
-        const localTitle = document.getElementById('localTitle');
-        const transportBtns = document.querySelectorAll('.transport-btn');
+        const resultsSection = document.getElementById('resultsSection');
+        const displayRoute = document.getElementById('displayRoute');
+        const resHeader = document.getElementById('resHeader');
+        const catTrains = document.getElementById('catTrains');
+        const catBuses = document.getElementById('catBuses');
+        const catLocal = document.getElementById('catLocal');
 
-        let selectedProvider = 'flixbus';
         let currentLang = 'it';
-
-        transportBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                transportBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedProvider = btn.getAttribute('data-type');
-            });
-        });
-
-        function changeLanguage(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-
-            if (lang === 'ar') {
-                document.documentElement.setAttribute('dir', 'rtl');
-                document.documentElement.setAttribute('lang', 'ar');
-            } else {
-                document.documentElement.setAttribute('dir', 'ltr');
-                document.documentElement.setAttribute('lang', lang);
-            }
-
-            if (mainTitle) mainTitle.textContent = t.title;
-            if (mainSub) mainSub.textContent = t.subtitle;
-            if (searchBtn) searchBtn.textContent = t.searchBtn;
-            if (localTitle) localTitle.textContent = t.localTitle;
-        }
 
         if (langSelector) {
             langSelector.addEventListener('change', (e) => {
-                changeLanguage(e.target.value);
-            });
-        }
-
-        if (searchBtn) {
-            searchBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                const origin = fromInput ? fromInput.value.trim() : '';
-                const destination = toInput ? toInput.value.trim() : '';
-
-                if (!origin || !destination) {
-                    alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : (currentLang === 'it' ? 'Inserisci la stazione di partenza e arrivo' : 'Please enter departure and arrival'));
-                    return;
-                }
-
-                let targetUrl = '';
-                if (selectedProvider === 'flixbus') {
-                    // رابط موثوق لـ FlixBus
-                    targetUrl = `https://www.flixbus.it/`;
+                currentLang = e.target.value;
+                const t = translations[currentLang];
+                if (currentLang === 'ar') {
+                    document.documentElement.setAttribute('dir', 'rtl');
                 } else {
-                    // رابط موثوق لـ Trenitalia
-                    targetUrl = `https://www.trenitalia.com/`;
+                    document.documentElement.setAttribute('dir', 'ltr');
                 }
-
-                window.open(targetUrl, '_blank');
+                mainTitle.textContent = t.title;
+                mainSub.textContent = t.subtitle;
+                searchBtn.textContent = t.searchBtn;
+                resHeader.textContent = t.resHeader;
+                catTrains.textContent = t.catTrains;
+                catBuses.textContent = t.catBuses;
+                catLocal.textContent = t.catLocal;
+                
+                document.querySelectorAll('.provider-action').forEach(el => el.textContent = t.btnText);
             });
         }
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const origin = fromInput ? fromInput.value.trim() : '';
+            const destination = toInput ? toInput.value.trim() : '';
+            const date = dateInput ? dateInput.value : '';
+
+            if (!origin || !destination) {
+                alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : 'Inserisci stazione di partenza e arrivo');
+                return;
+            }
+
+            // عرض الملخص وإظهار قسم النتائج
+            displayRoute.textContent = `${origin} ➔ ${destination} ${date ? '(' + date + ')' : ''}`;
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
