@@ -219,48 +219,52 @@
 
             <div id="resultsSection">
                 <h3 style="color:#38bdf8; font-size:1.2rem; margin-bottom: 5px;">Risultati della ricerca</h3>
-                <div id="tripSummary">Tratta: <span id="displayRoute"></span> (Clicca per vedere prezzi e orari diretti)</div>
+                <div id="tripSummary">Tratta: <span id="displayRoute"></span></div>
                 
-                <div class="category-title">🚂 Treni (Nazionali e Alta Velocità)</div>
+                <div class="category-title">🚂 Treni e Comparazione (Consigliato)</div>
                 <div class="providers-grid">
                     <a href="#" target="_blank" class="provider-card" id="linkOmio">
                         <div class="provider-info">
-                            <h4>Omio (Tutti i vettori e prezzi a confronto)</h4>
-                            <p>Mostra prezzi e orari di treni e bus direttamente</p>
+                            <h4>Omio (Confronta treni e bus con prezzi)</h4>
+                            <p>Cerca direttamente la tratta inserita con prezzi e orari</p>
                         </div>
-                        <span class="provider-action">Vedi Prezzi</span>
-                    </a>
-                    <a href="#" target="_blank" class="provider-card" id="linkTrenitalia">
-                        <div class="provider-info">
-                            <h4>Trenitalia</h4>
-                            <p>Sito ufficiale Trenitalia (Treni regionali e Frecce)</p>
-                        </div>
-                        <span class="provider-action">Vedi Prezzi</span>
-                    </a>
-                    <a href="#" target="_blank" class="provider-card" id="linkItalo">
-                        <div class="provider-info">
-                            <h4>Italo Treno</h4>
-                            <p>Alta velocità ufficiale Italo</p>
-                        </div>
-                        <span class="provider-action">Vedi Prezzi</span>
+                        <span class="provider-action">Cerca Ora</span>
                     </a>
                 </div>
 
-                <div class="category-title">🚌 Autobus (Nazionali e Internazionali)</div>
+                <div class="category-title">🚌 Autobus a lunga percorrenza</div>
                 <div class="providers-grid">
-                    <a href="#" target="_blank" class="provider-card" id="linkFlixbus">
+                    <a href="https://www.flixbus.it/" target="_blank" class="provider-card">
                         <div class="provider-info">
                             <h4>FlixBus</h4>
-                            <p>Collegamento autobus a lunga percorrenza</p>
+                            <p>Sito ufficiale FlixBus per autobus nazionali ed europei</p>
                         </div>
-                        <span class="provider-action">Vedi Prezzi</span>
+                        <span class="provider-action">Apri</span>
                     </a>
-                    <a href="#" target="_blank" class="provider-card" id="linkItabus">
+                    <a href="https://www.itabus.it/" target="_blank" class="provider-card">
                         <div class="provider-info">
                             <h4>Itabus</h4>
-                            <p>Autobus nazionali a prezzi vantaggiosi</p>
+                            <p>Sito ufficiale Itabus</p>
                         </div>
-                        <span class="provider-action">Vedi Prezzi</span>
+                        <span class="provider-action">Apri</span>
+                    </a>
+                </div>
+
+                <div class="category-title">🚂 Treni Ufficiali</div>
+                <div class="providers-grid">
+                    <a href="https://www.trenitalia.com/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Trenitalia</h4>
+                            <p>Sito ufficiale Trenitalia (Regionali e Frecce)</p>
+                        </div>
+                        <span class="provider-action">Apri</span>
+                    </a>
+                    <a href="https://www.italotreno.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Italo Treno</h4>
+                            <p>Sito ufficiale Italo Alta Velocità</p>
+                        </div>
+                        <span class="provider-action">Apri</span>
                     </a>
                 </div>
 
@@ -307,14 +311,8 @@
 
             displayRoute.textContent = `${origin} ➔ ${destination} ${date ? '(' + date + ')' : ''}`;
             
-            // روابط مخصصة تمرر محطات الانطلاق والوصول والتاريخ مباشرة لمواقع الشركات
+            // رابط Omio الذكي الذي يفتح النتائج مباشرة بالمدن والـ تاريخ المدخل
             document.getElementById('linkOmio').href = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}${date ? '&date=' + date : ''}`;
-            
-            // روابط توجيهية لصفحات البحث المباشر للشركات الكبرى
-            document.getElementById('linkFlixbus').href = `https://www.flixbus.it/`;
-            document.getElementById('linkTrenitalia').href = `https://www.trenitalia.com/`;
-            document.getElementById('linkItalo').href = `https://www.italotreno.it/`;
-            document.getElementById('linkItabus').href = `https://www.itabus.it/`;
 
             resultsSection.style.display = 'block';
             resultsSection.scrollIntoView({ behavior: 'smooth' });
