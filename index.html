@@ -221,32 +221,14 @@
                 <h3 style="color:#38bdf8; font-size:1.2rem; margin-bottom: 5px;">Risultati della ricerca</h3>
                 <div id="tripSummary">Tratta: <span id="displayRoute"></span></div>
                 
-                <div class="category-title">🚂 Treni e Comparazione (Consigliato)</div>
+                <div class="category-title">🚂 Confronto e Prezzi (Tutti i vettori)</div>
                 <div class="providers-grid">
                     <a href="#" target="_blank" class="provider-card" id="linkOmio">
                         <div class="provider-info">
-                            <h4>Omio (Confronta treni e bus con prezzi)</h4>
-                            <p>Cerca direttamente la tratta inserita con prezzi e orari</p>
+                            <h4>Omio (Consigliato per prezzi e orari)</h4>
+                            <p>Mostra direttamente i prezzi di treni e autobus per questa tratta</p>
                         </div>
-                        <span class="provider-action">Cerca Ora</span>
-                    </a>
-                </div>
-
-                <div class="category-title">🚌 Autobus a lunga percorrenza</div>
-                <div class="providers-grid">
-                    <a href="https://www.flixbus.it/" target="_blank" class="provider-card">
-                        <div class="provider-info">
-                            <h4>FlixBus</h4>
-                            <p>Sito ufficiale FlixBus per autobus nazionali ed europei</p>
-                        </div>
-                        <span class="provider-action">Apri</span>
-                    </a>
-                    <a href="https://www.itabus.it/" target="_blank" class="provider-card">
-                        <div class="provider-info">
-                            <h4>Itabus</h4>
-                            <p>Sito ufficiale Itabus</p>
-                        </div>
-                        <span class="provider-action">Apri</span>
+                        <span class="provider-action">Vedi Prezzi</span>
                     </a>
                 </div>
 
@@ -263,6 +245,24 @@
                         <div class="provider-info">
                             <h4>Italo Treno</h4>
                             <p>Sito ufficiale Italo Alta Velocità</p>
+                        </div>
+                        <span class="provider-action">Apri</span>
+                    </a>
+                </div>
+
+                <div class="category-title">🚌 Autobus a lunga percorrenza</div>
+                <div class="providers-grid">
+                    <a href="https://www.flixbus.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>FlixBus</h4>
+                            <p>Sito ufficiale FlixBus</p>
+                        </div>
+                        <span class="provider-action">Apri</span>
+                    </a>
+                    <a href="https://www.itabus.it/" target="_blank" class="provider-card">
+                        <div class="provider-info">
+                            <h4>Itabus</h4>
+                            <p>Sito ufficiale Itabus</p>
                         </div>
                         <span class="provider-action">Apri</span>
                     </a>
@@ -311,7 +311,7 @@
 
             displayRoute.textContent = `${origin} ➔ ${destination} ${date ? '(' + date + ')' : ''}`;
             
-            // رابط Omio الذكي الذي يفتح النتائج مباشرة بالمدن والـ تاريخ المدخل
+            // رابط Omio الذكي الذي ينقل المدن والبحث جاهزاً بالأسعار
             document.getElementById('linkOmio').href = `https://www.omio.it/search-frontend/results?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}${date ? '&date=' + date : ''}`;
 
             resultsSection.style.display = 'block';
