@@ -235,7 +235,7 @@
 
         function changeLanguage(lang) {
             currentLang = lang;
-            const t = translations[lang];
+            const t =translations[lang];
 
             if (lang === 'ar') {
                 document.documentElement.setAttribute('dir', 'rtl');
@@ -264,19 +264,15 @@
 
                 const origin = fromInput ? fromInput.value.trim() : '';
                 const destination = toInput ? toInput.value.trim() : '';
-                const date = dateInput ? dateInput.value : '';
 
                 if (!origin || !destination) {
                     alert(currentLang === 'ar' ? 'يرجى إدخال محطة المغادرة والوصول' : (currentLang === 'it' ? 'Inserisci la stazione di partenza e arrivo' : 'Please enter departure and arrival'));
                     return;
                 }
 
-                let omioUrl = `https://www.omio.it/search?from=${encodeURIComponent(origin)}&to=${encodeURIComponent(destination)}&transport=${selectedTransport}`;
+                // التوجيه المباشر للصفحة الرئيسية لـ Omio لتجنب أخطاء روابط البحث المباشر
+                const omioUrl = `https://www.omio.it/`;
                 
-                if (date) {
-                    omioUrl += `&date=${date}`;
-                }
-
                 window.open(omioUrl, '_blank');
             });
         }
